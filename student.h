@@ -22,7 +22,7 @@ class Student{
         void setData();
         void showData();
         void showAllStudents();
-        // void searchStudent();
+        void searchStudent();
         // void deleteStudent();
         // void modifyStudent();
 };
@@ -110,6 +110,35 @@ void Student::showAllStudents(){
     }
     fin.close();
     getch();
+}
+
+void Student::searchStudent(){
+    system("cls");
+    int id;
+    bool found = false;
+    cout << "Enter student roll no to search: ";
+    cin >> id;
+    ifstream fin;
+    fin.open("student.dat", ios::in|ios::binary);
+    if(!fin){
+        cout << "Error, file does not exists" << endl;
+    }else{
+        fin.read((char*)this, sizeof(*this));
+        while(fin.eof() == 0){
+            if(this->rollNo == id){
+                found = true;
+                showData();
+                break;
+            }
+            fin.read((char*)this, sizeof(*this));
+        }
+    }
+    if(found == false){
+        cout << "This student does not exists" << endl;
+        Sleep(3000);
+    }
+
+    fin.close();
 }
 
 #endif

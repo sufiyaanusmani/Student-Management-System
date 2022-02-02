@@ -19,9 +19,9 @@ int main(){
             case 2:
                 s.showAllStudents();
                 break;
-            // case 3:
-            //     s.searchStudent();
-            //     break;
+            case 3:
+                s.searchStudent();
+                break;
             // case 4:
             //     s.deleteStudent();
             //     break;
