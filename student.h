@@ -23,7 +23,7 @@ class Student{
         void showData();
         void showAllStudents();
         void searchStudent();
-        // void deleteStudent();
+        void deleteStudent();
         // void modifyStudent();
 };
 
@@ -139,6 +139,42 @@ void Student::searchStudent(){
     }
 
     fin.close();
+}
+
+void Student::deleteStudent(){
+    int id;
+    bool found = false;
+    cout << "Enter Roll No: ";
+    cin >> id;
+    ifstream fin;
+    ofstream fout;
+    fout.open("temp.dat", ios::out|ios::binary);
+    fin.open("student.dat", ios::in|ios::binary);
+    if(!fin){
+        cout << "File not found" << endl;
+    }else{
+        fin.read((char*)this, sizeof(*this));
+        while(fin.eof() == 0){
+            if(this->rollNo != id){
+                fout.write((char*)this, sizeof(*this));
+            }else if(this->rollNo == id){
+                found = true;
+            }
+            fin.read((char*)this, sizeof(*this));
+        }
+    }
+    fin.close();
+    fout.close();
+    if(found == false){
+        cout << "This ID does not exists" << endl;
+        getch();
+    }else{
+        cout << "Student deleted successfully" << endl;
+        getch();
+    }
+
+    remove("student.dat");
+    rename("temp.dat", "student.dat");
 }
 
 #endif

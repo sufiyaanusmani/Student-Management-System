@@ -22,9 +22,9 @@ int main(){
             case 3:
                 s.searchStudent();
                 break;
-            // case 4:
-            //     s.deleteStudent();
-            //     break;
+            case 4:
+                s.deleteStudent();
+                break;
             // case 5:
             //     s.modifyStudent();
             //     break;
