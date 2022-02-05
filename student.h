@@ -6,6 +6,8 @@
 #include <conio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <iomanip>
+#include <stdio.h>
 using namespace std;
 
 class Student{
@@ -24,7 +26,7 @@ class Student{
         void showAllStudents();
         void searchStudent();
         void deleteStudent();
-        // void modifyStudent();
+        void modifyStudent();
 };
 
 int Student::generateRollNo(){
@@ -93,18 +95,16 @@ void Student::storeData(){
 }
 
 void Student::showAllStudents(){
+    system("cls");
     ifstream fin;
     fin.open("student.dat", ios::in|ios::binary);
     if(!fin){
         cout << "File does not exists" << endl;
     }else{
+        printf("Roll No  Name                  Age  Contact Number  Email\n\n");
         fin.read((char*)this, sizeof(*this));
         while(fin.eof() == 0){
-            cout << "ID: " << this->rollNo << endl;
-            cout << "Name: " << this->name << endl;
-            cout << "Age: " << this->age << endl;
-            cout << "Email: " << this->email << endl;
-            cout << "Contact Number: " << this->contactNumber << endl << endl;
+            printf("%-6d   %-20s  %-3d  %-14s  %s\n", this->rollNo, this->name, this->age, this->contactNumber, this->email);
             fin.read((char*)this, sizeof(*this));
         }
     }
@@ -175,6 +175,44 @@ void Student::deleteStudent(){
 
     remove("student.dat");
     rename("temp.dat", "student.dat");
+}
+
+void Student::modifyStudent(){
+    int id;
+    showAllStudents();
+    getch();
+    bool found = false;
+    cout << "Enter roll no of student to modify: ";
+    cin >> id;
+    cout << "Enter new contact number: ";
+    char contact[20];
+    fflush(stdin);
+    gets(contact);
+    fstream file;
+    file.open("student.dat", ios::in|ios::out|ios::ate|ios::binary);
+    file.seekg(0);
+    if(!file){
+        cout << "File does not exists\n";
+    }else{
+        file.read((char*)this, sizeof(*this));
+        while(file.eof() == 0){
+            if(this->rollNo == id){
+                found = true;
+                strcpy(this->contactNumber, contact);
+                file.seekp(file.tellp() - sizeof(*this));
+                file.write((char*)this, sizeof(*this));
+            }
+            file.read((char*)this, sizeof(*this));
+        }
+    }
+    file.close();
+    if(found == true){
+        cout << "Data updated successfully" << endl;
+        Sleep(3000);
+    }else{
+        cout << "This Roll No does not exists" << endl;
+        Sleep(3000);
+    }
 }
 
 #endif

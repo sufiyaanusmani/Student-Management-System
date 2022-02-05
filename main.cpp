@@ -25,9 +25,9 @@ int main(){
             case 4:
                 s.deleteStudent();
                 break;
-            // case 5:
-            //     s.modifyStudent();
-            //     break;
+            case 5:
+                s.modifyStudent();
+                break;
             default:
                 cout << "Wrong choice entered, please enter a valid choice" << endl;
                 Sleep(3000);
